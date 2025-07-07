@@ -341,14 +341,18 @@ Le projet utilise des commits conventionnels :
 ### Avertissements connus
 
 **PHP Deprecation Warning (Laravel 9 + PHP 8.1+)**
+
 ```
 PHP Deprecated: Illuminate\Log\Logger::__construct(): Implicitly marking parameter $dispatcher as nullable is deprecated
 ```
+
 **Solution** : Cette dépréciation est liée à Laravel 9.x avec PHP 8.1+. Elle n'affecte pas le fonctionnement de l'application et sera corrigée dans Laravel 10. Pour supprimer l'avertissement :
+
 - Mettre à jour vers Laravel 10+ (recommandé)
 - Ou ignorer l'avertissement qui n'affecte pas les fonctionnalités
 
 **Erreurs de développement courantes**
+
 - **Port 5173 occupé** : Vite utilisera automatiquement 5174 ou un autre port disponible
 - **CORS errors** : Vérifier que l'API backend fonctionne sur http://localhost:8000
 - **Database errors** : Vérifier que `database/database.sqlite` existe et que les migrations ont été exécutées

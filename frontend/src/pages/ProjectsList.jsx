@@ -94,6 +94,7 @@ const ProjectsList = () => {
       <div className="projects-search">
         <form onSubmit={handleSearchSubmit} className="search-form">
           <input
+            id="projects-search"
             type="text"
             placeholder="Rechercher un projet..."
             value={searchTerm}

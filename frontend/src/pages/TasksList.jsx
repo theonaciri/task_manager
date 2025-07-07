@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchTasks, deleteTask, clearError, updateFilters, clearFilters } from '../store/slices/tasksSlice';
@@ -16,6 +16,19 @@ const TasksList = () => {
   const { projects } = useSelector((state) => state.projects);
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, task: null });
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState(filters.search || '');
+
+  // Debounced search effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (searchTerm !== filters.search) {
+        dispatch(updateFilters({ search: searchTerm }));
+        setCurrentPage(1);
+      }
+    }, 300); // 300ms delay
+
+    return () => clearTimeout(timer);
+  }, [searchTerm, filters.search, dispatch]);
 
   useEffect(() => {
     dispatch(fetchProjects());
@@ -39,7 +52,12 @@ const TasksList = () => {
     setCurrentPage(1); // Reset à la première page lors du changement de filtre
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   const handleClearFilters = () => {
+    setSearchTerm('');
     dispatch(clearFilters());
     setCurrentPage(1);
   };
@@ -113,10 +131,11 @@ const TasksList = () => {
       <div className="tasks-filters">
         <div className="tasks-filters__row">
           <input
+            id="tasks-search"
             type="text"
             placeholder="Rechercher une tâche..."
-            value={filters.search}
-            onChange={(e) => handleFilterChange({ search: e.target.value })}
+            value={searchTerm}
+            onChange={handleSearchChange}
             className="tasks-filters__search"
           />
           
@@ -144,7 +163,7 @@ const TasksList = () => {
             ))}
           </select>
 
-          {(filters.status || filters.project_id || filters.search) && (
+          {(filters.status || filters.project_id || searchTerm) && (
             <Button
               variant="secondary"
               size="small"
