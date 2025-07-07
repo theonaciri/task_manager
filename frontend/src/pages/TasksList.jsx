@@ -56,6 +56,16 @@ const TasksList = () => {
     setSearchTerm(e.target.value);
   };
 
+  const handleSearchKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+    }
+  };
+
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+  };
+
   const handleClearFilters = () => {
     setSearchTerm('');
     dispatch(clearFilters());
@@ -129,13 +139,14 @@ const TasksList = () => {
 
       {/* Filtres et recherche */}
       <div className="tasks-filters">
-        <div className="tasks-filters__row">
+        <form onSubmit={handleFormSubmit} className="tasks-filters__row">
           <input
             id="tasks-search"
             type="text"
             placeholder="Rechercher une tâche..."
             value={searchTerm}
             onChange={handleSearchChange}
+            onKeyDown={handleSearchKeyDown}
             className="tasks-filters__search"
           />
           
@@ -167,12 +178,13 @@ const TasksList = () => {
             <Button
               variant="secondary"
               size="small"
+              type="button"
               onClick={handleClearFilters}
             >
               Effacer les filtres
             </Button>
           )}
-        </div>
+        </form>
       </div>
 
       {error && (
