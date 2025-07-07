@@ -43,6 +43,40 @@
   padding: 1rem;
 }
 
+/* Search */
+.projects-search {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.search-form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 250px;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e9ecef;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.search-input::placeholder {
+  color: #6c757d;
+}
+
 /* Projects Grid */
 .projects-grid {
   display: grid;

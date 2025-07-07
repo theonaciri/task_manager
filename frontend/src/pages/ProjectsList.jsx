@@ -1,21 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { fetchProjects, deleteProject, clearError } from '../store/slices/projectsSlice';
+import { fetchProjects, deleteProject, clearError, updateSearch, clearSearch } from '../store/slices/projectsSlice';
 import Button from '../components/Button';
 import Loading from '../components/Loading';
 import ErrorMessage from '../components/ErrorMessage';
 import Modal from '../components/Modal';
+import Pagination from '../components/Pagination';
 import './ProjectsList.css';
 
 const ProjectsList = () => {
   const dispatch = useDispatch();
-  const { projects, loading, error } = useSelector((state) => state.projects);
+  const { projects, loading, error, pagination, search } = useSelector((state) => state.projects);
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, project: null });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState(search);
 
   useEffect(() => {
-    dispatch(fetchProjects());
-  }, [dispatch]);
+    const params = {
+      page: currentPage,
+      per_page: 12
+    };
+    if (search) {
+      params.search = search;
+    }
+    dispatch(fetchProjects(params));
+  }, [dispatch, currentPage, search]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    dispatch(updateSearch(searchTerm));
+    setCurrentPage(1);
+  };
+
+  const handleClearSearch = () => {
+    setSearchTerm('');
+    dispatch(clearSearch());
+    setCurrentPage(1);
+  };
 
   const handleDeleteProject = (project) => {
     setDeleteModal({ isOpen: true, project });
@@ -25,8 +55,15 @@ const ProjectsList = () => {
     if (deleteModal.project) {
       await dispatch(deleteProject(deleteModal.project.id));
       setDeleteModal({ isOpen: false, project: null });
-      // Rechargement de la liste
-      dispatch(fetchProjects());
+      // Rechargement de la liste en gardant la page courante
+      const params = {
+        page: currentPage,
+        per_page: 12
+      };
+      if (search) {
+        params.search = search;
+      }
+      dispatch(fetchProjects(params));
     }
   };
 
@@ -51,6 +88,32 @@ const ProjectsList = () => {
             + Nouveau Projet
           </Button>
         </Link>
+      </div>
+
+      {/* Barre de recherche */}
+      <div className="projects-search">
+        <form onSubmit={handleSearchSubmit} className="search-form">
+          <input
+            type="text"
+            placeholder="Rechercher un projet..."
+            value={searchTerm}
+            onChange={handleSearchChange}
+            className="search-input"
+          />
+          <Button type="submit" variant="primary" size="small">
+            Rechercher
+          </Button>
+          {search && (
+            <Button
+              type="button"
+              variant="secondary"
+              size="small"
+              onClick={handleClearSearch}
+            >
+              Effacer
+            </Button>
+          )}
+        </form>
       </div>
 
       {error && (
@@ -109,6 +172,17 @@ const ProjectsList = () => {
             </div>
           ))}
         </div>
+      )}
+
+      {projects.length > 0 && (
+        <Pagination
+          currentPage={pagination.current_page}
+          lastPage={pagination.last_page}
+          total={pagination.total}
+          perPage={pagination.per_page}
+          onPageChange={handlePageChange}
+          loading={loading}
+        />
       )}
 
       {loading && projects.length > 0 && (

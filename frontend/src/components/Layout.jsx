@@ -14,6 +14,9 @@ const Layout = ({ children }) => {
             <Link to="/projects" className="nav-link">
               Projets
             </Link>
+            <Link to="/tasks" className="nav-link">
+              Tâches
+            </Link>
           </nav>
         </div>
       </header>

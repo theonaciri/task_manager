@@ -4,9 +4,9 @@ import { taskService } from '../../services/taskService';
 // Actions asynchrones
 export const fetchTasks = createAsyncThunk(
     'tasks/fetchTasks',
-    async (filters = {}, { rejectWithValue }) => {
+    async (params = {}, { rejectWithValue }) => {
         try {
-            const response = await taskService.getAll(filters);
+            const response = await taskService.getAll(params);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data || error.message);
@@ -67,9 +67,16 @@ const initialState = {
     currentTask: null,
     loading: false,
     error: null,
+    pagination: {
+        current_page: 1,
+        last_page: 1,
+        per_page: 10,
+        total: 0,
+    },
     filters: {
         status: '',
         project_id: '',
+        search: '',
     },
     formData: {
         title: '',
@@ -99,7 +106,7 @@ const tasksSlice = createSlice({
             state.filters = { ...state.filters, ...action.payload };
         },
         clearFilters: (state) => {
-            state.filters = { status: '', project_id: '' };
+            state.filters = { status: '', project_id: '', search: '' };
         },
         setCurrentTask: (state, action) => {
             state.currentTask = action.payload;
@@ -114,7 +121,16 @@ const tasksSlice = createSlice({
             })
             .addCase(fetchTasks.fulfilled, (state, action) => {
                 state.loading = false;
-                state.tasks = action.payload;
+                state.tasks = action.payload.data || action.payload;
+                // Gestion de la pagination si elle existe
+                if (action.payload.meta) {
+                    state.pagination = {
+                        current_page: action.payload.meta.current_page,
+                        last_page: action.payload.meta.last_page,
+                        per_page: action.payload.meta.per_page,
+                        total: action.payload.meta.total,
+                    };
+                }
             })
             .addCase(fetchTasks.rejected, (state, action) => {
                 state.loading = false;

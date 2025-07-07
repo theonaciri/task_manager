@@ -5,6 +5,7 @@ Une application de gestion de tâches complète avec backend Laravel 9 et fronte
 ## 🚀 Fonctionnalités
 
 ### Backend (Laravel 9)
+
 - ✅ API REST complète pour les projets et tâches
 - ✅ Validation des données avec Form Requests
 - ✅ Relations Eloquent entre projets et tâches
@@ -14,6 +15,7 @@ Une application de gestion de tâches complète avec backend Laravel 9 et fronte
 - ✅ Base de données SQLite pour la simplicité
 
 ### Frontend (React 17 + Redux)
+
 - ✅ Redux Toolkit pour la gestion d'état
 - ✅ React Router pour la navigation
 - ✅ Pages complètes : liste des projets, détails, formulaires
@@ -23,6 +25,7 @@ Une application de gestion de tâches complète avec backend Laravel 9 et fronte
 - ✅ Interface utilisateur moderne et responsive
 
 ### Fonctionnalités Métier
+
 - ✅ Gestion des projets (CRUD complet)
 - ✅ Gestion des tâches associées aux projets (CRUD complet)
 - ✅ Statuts de tâches : 'pending', 'completed'
@@ -88,6 +91,7 @@ tasks_manager/
 ## 🛠️ Installation et Configuration
 
 ### Prérequis
+
 - PHP 8.1 ou supérieur
 - Composer
 - Node.js 16+ et npm
@@ -96,22 +100,26 @@ tasks_manager/
 ### Installation du Backend (Laravel)
 
 1. **Naviguer vers le dossier backend**
+
    ```bash
    cd backend
    ```
 
 2. **Installer les dépendances PHP**
+
    ```bash
    composer install
    ```
 
 3. **Configurer l'environnement**
+
    ```bash
    cp .env.example .env
    php artisan key:generate
    ```
 
 4. **Configurer la base de données** (déjà configuré pour SQLite)
+
    ```bash
    # Le fichier .env est déjà configuré pour SQLite
    # DB_CONNECTION=sqlite
@@ -119,6 +127,7 @@ tasks_manager/
    ```
 
 5. **Créer la base de données et exécuter les migrations**
+
    ```bash
    touch database/database.sqlite
    php artisan migrate --seed
@@ -132,11 +141,13 @@ tasks_manager/
 ### Installation du Frontend (React)
 
 1. **Naviguer vers le dossier frontend**
+
    ```bash
    cd frontend
    ```
 
 2. **Installer les dépendances Node.js**
+
    ```bash
    npm install
    ```
@@ -147,12 +158,14 @@ tasks_manager/
    ```
 
 L'application sera accessible sur :
+
 - **Backend API** : http://localhost:8000/api
 - **Frontend** : http://localhost:5173 (ou 5174 si 5173 est occupé)
 
 ## 📋 Utilisation
 
 ### Accès à l'application
+
 1. Ouvrir http://localhost:5173 dans votre navigateur
 2. Vous arriverez sur la liste des projets
 3. Cliquer sur "Nouveau projet" pour créer un projet
@@ -160,9 +173,11 @@ L'application sera accessible sur :
 5. Ajouter des tâches depuis la page de détails d'un projet
 
 ### Tâche planifiée
+
 La tâche planifiée s'exécute automatiquement chaque jour à 9h00 pour envoyer des rappels pour les tâches en attente créées depuis plus de 7 jours.
 
 **Test manuel :**
+
 ```bash
 cd backend
 php artisan tasks:send-reminders
@@ -173,11 +188,13 @@ Les rappels sont simulés avec `Log::info()` et visibles dans `storage/logs/lara
 ## 🧪 Tests
 
 ### Test de l'API
+
 - **Projets** : GET http://localhost:8000/api/projects
 - **Tâches** : GET http://localhost:8000/api/tasks
 - **Projet spécifique** : GET http://localhost:8000/api/projects/1
 
 ### Test de la tâche planifiée
+
 ```bash
 php artisan tasks:send-reminders
 ```
@@ -185,6 +202,7 @@ php artisan tasks:send-reminders
 ## 🎨 Interface Utilisateur
 
 L'interface utilise CSS moderne avec :
+
 - Design responsive
 - Gradients colorés
 - Animations fluides
@@ -195,6 +213,7 @@ L'interface utilise CSS moderne avec :
 ## 🔧 Technologies Utilisées
 
 ### Backend
+
 - **Laravel 9** - Framework PHP
 - **Eloquent ORM** - Relations entre modèles
 - **API Resources** - Formatage des réponses JSON
@@ -203,6 +222,7 @@ L'interface utilise CSS moderne avec :
 - **SQLite** - Base de données
 
 ### Frontend
+
 - **React 17** - Interface utilisateur
 - **Redux Toolkit** - Gestion d'état
 - **React Router** - Navigation
@@ -218,6 +238,7 @@ L'interface utilise CSS moderne avec :
 ## 📝 API Endpoints
 
 ### Projets
+
 - `GET /api/projects` - Liste des projets
 - `POST /api/projects` - Créer un projet
 - `GET /api/projects/{id}` - Détails d'un projet avec tâches
@@ -225,6 +246,7 @@ L'interface utilise CSS moderne avec :
 - `DELETE /api/projects/{id}` - Supprimer un projet
 
 ### Tâches
+
 - `GET /api/tasks` - Liste des tâches (avec filtres)
 - `POST /api/tasks` - Créer une tâche
 - `GET /api/tasks/{id}` - Détails d'une tâche
@@ -232,13 +254,16 @@ L'interface utilise CSS moderne avec :
 - `DELETE /api/tasks/{id}` - Supprimer une tâche
 
 ### Filtres disponibles
+
 - `?status=pending|completed` - Filtrer par statut
 - `?project_id=1` - Filtrer par projet
 
 ## 👥 Développement
 
 ### Structure des commits
+
 Le projet utilise des commits conventionnels :
+
 - `feat:` - Nouvelles fonctionnalités
 - `fix:` - Corrections de bugs
 - `docs:` - Documentation
@@ -246,6 +271,7 @@ Le projet utilise des commits conventionnels :
 - `refactor:` - Refactoring
 
 ### Qualité du code
+
 - Code PSR-12 compliant (PHP)
 - ESLint configuration (JavaScript)
 - Validation stricte des données

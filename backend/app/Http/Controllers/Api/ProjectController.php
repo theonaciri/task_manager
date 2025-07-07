@@ -15,9 +15,17 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $projects = Project::withCount('tasks')->get();
+        $query = Project::withCount('tasks');
+
+        // Recherche par nom de projet
+        if ($request->has('search') && $request->search) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
+
+        $perPage = $request->get('per_page', 10); // 10 par défaut
+        $projects = $query->paginate($perPage);
         return ProjectResource::collection($projects);
     }
 

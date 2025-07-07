@@ -18,6 +18,11 @@ class TaskController extends Controller
     {
         $query = Task::with('project');
 
+        // Recherche par titre de tâche
+        if ($request->has('search') && $request->search) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
         if ($request->has('status')) {
             $query->where('status', $request->status);
         }
@@ -26,7 +31,8 @@ class TaskController extends Controller
             $query->where('project_id', $request->project_id);
         }
 
-        $tasks = $query->get();
+        $perPage = $request->get('per_page', 10); // 10 par défaut
+        $tasks = $query->paginate($perPage);
         return TaskResource::collection($tasks);
     }
 

@@ -4,9 +4,9 @@ import { projectService } from '../../services/projectService';
 // Actions asynchrones
 export const fetchProjects = createAsyncThunk(
     'projects/fetchProjects',
-    async (_, { rejectWithValue }) => {
+    async (params = {}, { rejectWithValue }) => {
         try {
-            const response = await projectService.getAll();
+            const response = await projectService.getAll(params);
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data || error.message);
@@ -67,6 +67,13 @@ const initialState = {
     currentProject: null,
     loading: false,
     error: null,
+    pagination: {
+        current_page: 1,
+        last_page: 1,
+        per_page: 10,
+        total: 0,
+    },
+    search: '',
     formData: {
         name: '',
     },
@@ -92,6 +99,12 @@ const projectsSlice = createSlice({
         setCurrentProject: (state, action) => {
             state.currentProject = action.payload;
         },
+        updateSearch: (state, action) => {
+            state.search = action.payload;
+        },
+        clearSearch: (state) => {
+            state.search = '';
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -102,7 +115,16 @@ const projectsSlice = createSlice({
             })
             .addCase(fetchProjects.fulfilled, (state, action) => {
                 state.loading = false;
-                state.projects = action.payload;
+                state.projects = action.payload.data || action.payload;
+                // Gestion de la pagination si elle existe
+                if (action.payload.meta) {
+                    state.pagination = {
+                        current_page: action.payload.meta.current_page,
+                        last_page: action.payload.meta.last_page,
+                        per_page: action.payload.meta.per_page,
+                        total: action.payload.meta.total,
+                    };
+                }
             })
             .addCase(fetchProjects.rejected, (state, action) => {
                 state.loading = false;
@@ -182,6 +204,8 @@ export const {
     updateFormData,
     resetFormData,
     setCurrentProject,
+    updateSearch,
+    clearSearch,
 } = projectsSlice.actions;
 
 export default projectsSlice.reducer;

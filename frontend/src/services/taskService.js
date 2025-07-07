@@ -1,22 +1,9 @@
 import api from './api';
 
 export const taskService = {
-    // Récupérer toutes les tâches
-    getAll: async (filters = {}) => {
-        const params = new URLSearchParams();
-
-        if (filters.status) {
-            params.append('status', filters.status);
-        }
-
-        if (filters.project_id) {
-            params.append('project_id', filters.project_id);
-        }
-
-        const queryString = params.toString();
-        const url = queryString ? `/tasks?${queryString}` : '/tasks';
-
-        const response = await api.get(url);
+    // Récupérer toutes les tâches avec pagination et filtres
+    getAll: async (params = {}) => {
+        const response = await api.get('/tasks', { params });
         return response.data;
     },
 

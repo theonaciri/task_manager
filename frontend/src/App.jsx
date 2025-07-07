@@ -6,6 +6,7 @@ import Layout from './components/Layout';
 import ProjectsList from './pages/ProjectsList';
 import ProjectDetails from './pages/ProjectDetails';
 import ProjectForm from './pages/ProjectForm';
+import TasksList from './pages/TasksList';
 import TaskForm from './pages/TaskForm';
 import './App.css';
 
@@ -20,6 +21,7 @@ function App() {
             <Route path="/projects/new" element={<ProjectForm />} />
             <Route path="/projects/:id" element={<ProjectDetails />} />
             <Route path="/projects/:id/edit" element={<ProjectForm />} />
+            <Route path="/tasks" element={<TasksList />} />
             <Route path="/tasks/new" element={<TaskForm />} />
             <Route path="/tasks/:id/edit" element={<TaskForm />} />
           </Routes>

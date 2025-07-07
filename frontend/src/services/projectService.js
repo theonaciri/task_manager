@@ -1,9 +1,9 @@
 import api from './api';
 
 export const projectService = {
-    // Récupérer tous les projets
-    getAll: async () => {
-        const response = await api.get('/projects');
+    // Récupérer tous les projets avec pagination
+    getAll: async (params = {}) => {
+        const response = await api.get('/projects', { params });
         return response.data;
     },
 
