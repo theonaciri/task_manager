@@ -1,0 +1,154 @@
+/* Projects List Styles */
+.projects-list {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.projects-list__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.projects-list__header h1 {
+  margin: 0;
+  color: #343a40;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.projects-list__empty {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.projects-list__empty h3 {
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.projects-list__empty p {
+  color: #868e96;
+  margin-bottom: 2rem;
+}
+
+.projects-list__loading {
+  text-align: center;
+  padding: 1rem;
+}
+
+/* Projects Grid */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Project Card */
+.project-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid #e9ecef;
+}
+
+.project-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.project-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.project-card__title {
+  margin: 0;
+  color: #343a40;
+  font-size: 1.25rem;
+  font-weight: 600;
+  flex: 1;
+  margin-right: 1rem;
+}
+
+.project-card__badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.project-card__meta {
+  margin-bottom: 1.5rem;
+}
+
+.project-card__date {
+  margin: 0;
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.project-card__actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.project-card__actions .btn {
+  flex: 1;
+  min-width: 80px;
+}
+
+/* Modal Actions */
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+.text-danger {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .projects-list__header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .projects-list__header h1 {
+    text-align: center;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .project-card__actions {
+    flex-direction: column;
+  }
+
+  .project-card__actions .btn {
+    width: 100%;
+  }
+}
