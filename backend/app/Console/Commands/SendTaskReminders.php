@@ -31,7 +31,7 @@ class SendTaskReminders extends Command
     public function handle()
     {
         $sevenDaysAgo = Carbon::now()->subDays(7);
-        
+
         $oldPendingTasks = Task::where('status', 'pending')
             ->where('created_at', '<', $sevenDaysAgo)
             ->with('project')

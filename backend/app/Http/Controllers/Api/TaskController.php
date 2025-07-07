@@ -17,15 +17,15 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         $query = Task::with('project');
-        
+
         if ($request->has('status')) {
             $query->where('status', $request->status);
         }
-        
+
         if ($request->has('project_id')) {
             $query->where('project_id', $request->project_id);
         }
-        
+
         $tasks = $query->get();
         return TaskResource::collection($tasks);
     }
