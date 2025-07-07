@@ -18,19 +18,38 @@ describe('Project Service', () => {
           { id: 2, name: 'Project 2' }
         ]
       }
-      
+
       api.get.mockResolvedValue(mockProjects)
-      
+
       const result = await projectService.getAll()
-      
-      expect(api.get).toHaveBeenCalledWith('/projects')
+
+      expect(api.get).toHaveBeenCalledWith('/projects', { params: {} })
+      expect(result).toEqual(mockProjects.data)
+    })
+
+    it('should pass pagination parameters', async () => {
+      const mockProjects = {
+        data: {
+          data: [
+            { id: 1, name: 'Project 1', created_at: '2023-01-01', updated_at: '2023-01-01' }
+          ],
+          meta: { current_page: 1, last_page: 1, total: 1 }
+        }
+      }
+
+      api.get.mockResolvedValue(mockProjects)
+
+      const params = { page: 2, per_page: 5, search: 'test' }
+      const result = await projectService.getAll(params)
+
+      expect(api.get).toHaveBeenCalledWith('/projects', { params })
       expect(result).toEqual(mockProjects.data)
     })
 
     it('should handle API errors', async () => {
       const errorMessage = 'Network Error'
       api.get.mockRejectedValue(new Error(errorMessage))
-      
+
       await expect(projectService.getAll()).rejects.toThrow(errorMessage)
     })
   })
@@ -41,11 +60,11 @@ describe('Project Service', () => {
       const mockProject = {
         data: { id: 1, name: 'Project 1', tasks: [] }
       }
-      
+
       api.get.mockResolvedValue(mockProject)
-      
+
       const result = await projectService.getById(projectId)
-      
+
       expect(api.get).toHaveBeenCalledWith(`/projects/${projectId}`)
       expect(result).toEqual(mockProject.data)
     })
@@ -57,11 +76,11 @@ describe('Project Service', () => {
       const mockResponse = {
         data: { id: 1, ...projectData }
       }
-      
+
       api.post.mockResolvedValue(mockResponse)
-      
+
       const result = await projectService.create(projectData)
-      
+
       expect(api.post).toHaveBeenCalledWith('/projects', projectData)
       expect(result).toEqual(mockResponse.data)
     })
@@ -76,9 +95,9 @@ describe('Project Service', () => {
           }
         }
       }
-      
+
       api.post.mockRejectedValue(errorResponse)
-      
+
       await expect(projectService.create(projectData)).rejects.toEqual(errorResponse)
     })
   })
@@ -90,11 +109,11 @@ describe('Project Service', () => {
       const mockResponse = {
         data: { id: projectId, ...updateData }
       }
-      
+
       api.put.mockResolvedValue(mockResponse)
-      
+
       const result = await projectService.update(projectId, updateData)
-      
+
       expect(api.put).toHaveBeenCalledWith(`/projects/${projectId}`, updateData)
       expect(result).toEqual(mockResponse.data)
     })
@@ -106,11 +125,11 @@ describe('Project Service', () => {
       const mockResponse = {
         data: { message: 'Project deleted successfully' }
       }
-      
+
       api.delete.mockResolvedValue(mockResponse)
-      
+
       const result = await projectService.delete(projectId)
-      
+
       expect(api.delete).toHaveBeenCalledWith(`/projects/${projectId}`)
       expect(result).toEqual(mockResponse.data)
     })

@@ -29,7 +29,7 @@ class ProjectTest extends TestCase
     public function it_has_many_tasks()
     {
         $project = Project::factory()->create();
-        
+
         $task1 = Task::factory()->create(['project_id' => $project->id]);
         $task2 = Task::factory()->create(['project_id' => $project->id]);
 
@@ -42,7 +42,7 @@ class ProjectTest extends TestCase
     public function it_requires_a_name()
     {
         $this->expectException(\Illuminate\Database\QueryException::class);
-        
+
         Project::create([]);
     }
 
@@ -50,9 +50,9 @@ class ProjectTest extends TestCase
     public function it_can_be_updated()
     {
         $project = Project::factory()->create(['name' => 'Original Name']);
-        
+
         $project->update(['name' => 'Updated Name']);
-        
+
         $this->assertEquals('Updated Name', $project->fresh()->name);
     }
 
@@ -61,9 +61,9 @@ class ProjectTest extends TestCase
     {
         $project = Project::factory()->create();
         $projectId = $project->id;
-        
+
         $project->delete();
-        
+
         $this->assertDatabaseMissing('projects', ['id' => $projectId]);
     }
 
@@ -72,9 +72,9 @@ class ProjectTest extends TestCase
     {
         $project = Project::factory()->create();
         $task = Task::factory()->create(['project_id' => $project->id]);
-        
+
         $project->delete();
-        
+
         $this->assertDatabaseMissing('tasks', ['id' => $task->id]);
     }
 }

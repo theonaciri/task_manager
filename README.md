@@ -250,7 +250,6 @@ L'interface utilise CSS moderne avec :
     - `per_page` : Nombre d'éléments par page (défaut: 10)
     - `search` : Recherche par nom de projet
   - **Exemple** : `/api/projects?page=2&per_page=5&search=web`
-  
 - `POST /api/projects` - Créer un projet
 - `GET /api/projects/{id}` - Détails d'un projet avec tâches
 - `PUT /api/projects/{id}` - Modifier un projet
@@ -266,7 +265,6 @@ L'interface utilise CSS moderne avec :
     - `status` : Filtrer par statut (pending, in_progress, completed)
     - `project_id` : Filtrer par projet
   - **Exemple** : `/api/tasks?page=1&per_page=5&search=homepage&status=pending&project_id=1`
-  
 - `POST /api/tasks` - Créer une tâche
 - `GET /api/tasks/{id}` - Détails d'une tâche
 - `PUT /api/tasks/{id}` - Modifier une tâche
@@ -275,6 +273,7 @@ L'interface utilise CSS moderne avec :
 ### Formats de réponse
 
 **Réponse paginée :**
+
 ```json
 {
   "data": [...],
@@ -298,18 +297,21 @@ L'interface utilise CSS moderne avec :
 ## 🎯 Fonctionnalités Avancées
 
 ### Pagination
+
 - **Contrôles intuitifs** : Boutons précédent/suivant, numéros de page
 - **Informations contextuelles** : "Affichage de X à Y sur Z éléments"
 - **Navigation intelligente** : Ellipses pour les grandes listes de pages
 - **Responsive** : Adapté aux écrans mobiles et desktop
 
 ### Recherche et Filtres
+
 - **Recherche en temps réel** : Recherche instantanée dans les projets et tâches
 - **Filtres combinés** : Statut + projet + recherche textuelle
 - **Interface claire** : Boutons pour effacer les filtres
 - **États de chargement** : Indicateurs visuels pendant les requêtes
 
 ### Interface Utilisateur
+
 - **Page dédiée aux tâches** : Liste complète avec navigation `/tasks`
 - **Cartes visuelles** : Design moderne avec badges de statut colorés
 - **Modales de confirmation** : Sécurité avant suppression
@@ -333,6 +335,23 @@ Le projet utilise des commits conventionnels :
 - ESLint configuration (JavaScript)
 - Validation stricte des données
 - Gestion d'erreurs complète
+
+## 🐛 Dépannage
+
+### Avertissements connus
+
+**PHP Deprecation Warning (Laravel 9 + PHP 8.1+)**
+```
+PHP Deprecated: Illuminate\Log\Logger::__construct(): Implicitly marking parameter $dispatcher as nullable is deprecated
+```
+**Solution** : Cette dépréciation est liée à Laravel 9.x avec PHP 8.1+. Elle n'affecte pas le fonctionnement de l'application et sera corrigée dans Laravel 10. Pour supprimer l'avertissement :
+- Mettre à jour vers Laravel 10+ (recommandé)
+- Ou ignorer l'avertissement qui n'affecte pas les fonctionnalités
+
+**Erreurs de développement courantes**
+- **Port 5173 occupé** : Vite utilisera automatiquement 5174 ou un autre port disponible
+- **CORS errors** : Vérifier que l'API backend fonctionne sur http://localhost:8000
+- **Database errors** : Vérifier que `database/database.sqlite` existe et que les migrations ont été exécutées
 
 ## 🔮 Améliorations Possibles
 

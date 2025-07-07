@@ -7,22 +7,25 @@ const Button = ({
   size = 'medium', 
   disabled = false, 
   loading = false,
+  isLoading = false, // Accept isLoading as an alias for loading
   onClick,
   type = 'button',
   className = '',
   ...props 
 }) => {
-  const buttonClass = `btn btn-${variant} btn-${size} ${loading ? 'btn-loading' : ''} ${className}`;
+  // Use either loading or isLoading
+  const isButtonLoading = loading || isLoading;
+  const buttonClass = `btn btn-${variant} btn-${size} ${isButtonLoading ? 'btn-loading' : ''} ${className}`;
 
   return (
     <button 
       type={type}
       className={buttonClass}
-      disabled={disabled || loading}
+      disabled={disabled || isButtonLoading}
       onClick={onClick}
       {...props}
     >
-      {loading ? (
+      {isButtonLoading ? (
         <span className="spinner"></span>
       ) : (
         children

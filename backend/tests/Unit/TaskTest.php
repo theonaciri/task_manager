@@ -15,7 +15,7 @@ class TaskTest extends TestCase
     public function it_can_create_a_task()
     {
         $project = Project::factory()->create();
-        
+
         $task = Task::create([
             'title' => 'Test Task',
             'status' => 'pending',
@@ -42,12 +42,12 @@ class TaskTest extends TestCase
     public function it_has_valid_status_values()
     {
         $project = Project::factory()->create();
-        
+
         $pendingTask = Task::factory()->create([
             'project_id' => $project->id,
             'status' => 'pending'
         ]);
-        
+
         $completedTask = Task::factory()->create([
             'project_id' => $project->id,
             'status' => 'completed'
@@ -61,7 +61,7 @@ class TaskTest extends TestCase
     public function it_requires_a_title()
     {
         $this->expectException(\Illuminate\Database\QueryException::class);
-        
+
         $project = Project::factory()->create();
         Task::create([
             'status' => 'pending',
@@ -73,7 +73,7 @@ class TaskTest extends TestCase
     public function it_requires_a_project_id()
     {
         $this->expectException(\Illuminate\Database\QueryException::class);
-        
+
         Task::create([
             'title' => 'Test Task',
             'status' => 'pending'
@@ -84,7 +84,7 @@ class TaskTest extends TestCase
     public function it_has_default_pending_status()
     {
         $project = Project::factory()->create();
-        
+
         $task = Task::create([
             'title' => 'Test Task',
             'project_id' => $project->id,
@@ -98,9 +98,9 @@ class TaskTest extends TestCase
     public function it_can_be_updated()
     {
         $task = Task::factory()->create(['title' => 'Original Title']);
-        
+
         $task->update(['title' => 'Updated Title', 'status' => 'completed']);
-        
+
         $freshTask = $task->fresh();
         $this->assertEquals('Updated Title', $freshTask->title);
         $this->assertEquals('completed', $freshTask->status);

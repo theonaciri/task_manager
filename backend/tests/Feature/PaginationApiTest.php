@@ -72,7 +72,7 @@ class PaginationApiTest extends TestCase
 
         $response->assertStatus(200);
         $data = $response->json('data');
-        
+
         $this->assertEquals(2, count($data));
         $this->assertStringContainsStringIgnoringCase('Web', $data[0]['name']);
         $this->assertStringContainsStringIgnoringCase('Web', $data[1]['name']);
@@ -89,7 +89,7 @@ class PaginationApiTest extends TestCase
 
         $response->assertStatus(200);
         $data = $response->json('data');
-        
+
         $this->assertEquals(2, count($data));
         foreach ($data as $task) {
             $this->assertStringContainsStringIgnoringCase('homepage', $task['title']);
@@ -110,11 +110,11 @@ class PaginationApiTest extends TestCase
 
         $response->assertStatus(200);
         $data = $response->json('data');
-        
+
         $this->assertEquals(5, count($data));
         $this->assertEquals(9, $response->json('meta.total'));
         $this->assertEquals(2, $response->json('meta.last_page'));
-        
+
         foreach ($data as $task) {
             $this->assertEquals('pending', $task['status']);
         }
@@ -131,7 +131,7 @@ class PaginationApiTest extends TestCase
 
         $response->assertStatus(200);
         $data = $response->json('data');
-        
+
         $this->assertEquals(1, count($data));
         $this->assertStringContainsStringIgnoringCase('homepage', $data[0]['title']);
         $this->assertEquals('pending', $data[0]['status']);

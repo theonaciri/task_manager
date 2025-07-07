@@ -19,12 +19,12 @@ class ProjectApiTest extends TestCase
         $response = $this->getJson('/api/projects');
 
         $response->assertStatus(200)
-                 ->assertJsonCount(3, 'data')
-                 ->assertJsonStructure([
-                     'data' => [
-                         '*' => ['id', 'name', 'created_at', 'updated_at']
-                     ]
-                 ]);
+            ->assertJsonCount(3, 'data')
+            ->assertJsonStructure([
+                'data' => [
+                    '*' => ['id', 'name', 'created_at', 'updated_at']
+                ]
+            ]);
     }
 
     /** @test */
@@ -37,11 +37,11 @@ class ProjectApiTest extends TestCase
         $response = $this->postJson('/api/projects', $projectData);
 
         $response->assertStatus(201)
-                 ->assertJson([
-                     'data' => [
-                         'name' => 'New Test Project'
-                     ]
-                 ]);
+            ->assertJson([
+                'data' => [
+                    'name' => 'New Test Project'
+                ]
+            ]);
 
         $this->assertDatabaseHas('projects', $projectData);
     }
@@ -52,7 +52,7 @@ class ProjectApiTest extends TestCase
         $response = $this->postJson('/api/projects', []);
 
         $response->assertStatus(422)
-                 ->assertJsonValidationErrors(['name']);
+            ->assertJsonValidationErrors(['name']);
     }
 
     /** @test */
@@ -64,13 +64,13 @@ class ProjectApiTest extends TestCase
         $response = $this->getJson("/api/projects/{$project->id}");
 
         $response->assertStatus(200)
-                 ->assertJson([
-                     'data' => [
-                         'id' => $project->id,
-                         'name' => $project->name,
-                         'tasks_count' => 2
-                     ]
-                 ]);
+            ->assertJson([
+                'data' => [
+                    'id' => $project->id,
+                    'name' => $project->name,
+                    'tasks_count' => 2
+                ]
+            ]);
     }
 
     /** @test */
@@ -82,12 +82,12 @@ class ProjectApiTest extends TestCase
         $response = $this->putJson("/api/projects/{$project->id}", $updateData);
 
         $response->assertStatus(200)
-                 ->assertJson([
-                     'data' => [
-                         'id' => $project->id,
-                         'name' => 'Updated Project Name'
-                     ]
-                 ]);
+            ->assertJson([
+                'data' => [
+                    'id' => $project->id,
+                    'name' => 'Updated Project Name'
+                ]
+            ]);
 
         $this->assertDatabaseHas('projects', $updateData);
     }
@@ -100,7 +100,7 @@ class ProjectApiTest extends TestCase
         $response = $this->deleteJson("/api/projects/{$project->id}");
 
         $response->assertStatus(200)
-                 ->assertJson(['message' => 'Project deleted successfully']);
+            ->assertJson(['message' => 'Project deleted successfully']);
 
         $this->assertDatabaseMissing('projects', ['id' => $project->id]);
     }
