@@ -28,9 +28,13 @@ Une application de gestion de tâches complète avec backend Laravel 9 et fronte
 
 - ✅ Gestion des projets (CRUD complet)
 - ✅ Gestion des tâches associées aux projets (CRUD complet)
-- ✅ Statuts de tâches : 'pending', 'completed'
+- ✅ Statuts de tâches : 'pending', 'in_progress', 'completed'
 - ✅ Rappels automatiques pour tâches anciennes (>7 jours)
 - ✅ Interface de filtrage et recherche
+- ✅ **Pagination** pour projets et tâches
+- ✅ **Recherche textuelle** dans les projets et tâches
+- ✅ **Filtres combinés** (statut, projet, recherche) pour les tâches
+- ✅ Navigation intuitive avec contrôles de pagination
 
 ## 📁 Structure du Projet
 
@@ -233,6 +237,7 @@ L'interface utilise CSS moderne avec :
 ## 🚦 Statuts des Tâches
 
 - **pending** : Tâche en attente
+- **in_progress** : Tâche en cours
 - **completed** : Tâche terminée
 
 ## 📝 API Endpoints
@@ -240,6 +245,12 @@ L'interface utilise CSS moderne avec :
 ### Projets
 
 - `GET /api/projects` - Liste des projets
+  - **Paramètres** :
+    - `page` : Numéro de page (défaut: 1)
+    - `per_page` : Nombre d'éléments par page (défaut: 10)
+    - `search` : Recherche par nom de projet
+  - **Exemple** : `/api/projects?page=2&per_page=5&search=web`
+  
 - `POST /api/projects` - Créer un projet
 - `GET /api/projects/{id}` - Détails d'un projet avec tâches
 - `PUT /api/projects/{id}` - Modifier un projet
@@ -247,16 +258,62 @@ L'interface utilise CSS moderne avec :
 
 ### Tâches
 
-- `GET /api/tasks` - Liste des tâches (avec filtres)
+- `GET /api/tasks` - Liste des tâches (avec filtres et pagination)
+  - **Paramètres** :
+    - `page` : Numéro de page (défaut: 1)
+    - `per_page` : Nombre d'éléments par page (défaut: 10)
+    - `search` : Recherche par titre de tâche
+    - `status` : Filtrer par statut (pending, in_progress, completed)
+    - `project_id` : Filtrer par projet
+  - **Exemple** : `/api/tasks?page=1&per_page=5&search=homepage&status=pending&project_id=1`
+  
 - `POST /api/tasks` - Créer une tâche
 - `GET /api/tasks/{id}` - Détails d'une tâche
 - `PUT /api/tasks/{id}` - Modifier une tâche
 - `DELETE /api/tasks/{id}` - Supprimer une tâche
 
-### Filtres disponibles
+### Formats de réponse
 
-- `?status=pending|completed` - Filtrer par statut
-- `?project_id=1` - Filtrer par projet
+**Réponse paginée :**
+```json
+{
+  "data": [...],
+  "links": {
+    "first": "url",
+    "last": "url",
+    "prev": "url",
+    "next": "url"
+  },
+  "meta": {
+    "current_page": 1,
+    "last_page": 5,
+    "per_page": 10,
+    "total": 50,
+    "from": 1,
+    "to": 10
+  }
+}
+```
+
+## 🎯 Fonctionnalités Avancées
+
+### Pagination
+- **Contrôles intuitifs** : Boutons précédent/suivant, numéros de page
+- **Informations contextuelles** : "Affichage de X à Y sur Z éléments"
+- **Navigation intelligente** : Ellipses pour les grandes listes de pages
+- **Responsive** : Adapté aux écrans mobiles et desktop
+
+### Recherche et Filtres
+- **Recherche en temps réel** : Recherche instantanée dans les projets et tâches
+- **Filtres combinés** : Statut + projet + recherche textuelle
+- **Interface claire** : Boutons pour effacer les filtres
+- **États de chargement** : Indicateurs visuels pendant les requêtes
+
+### Interface Utilisateur
+- **Page dédiée aux tâches** : Liste complète avec navigation `/tasks`
+- **Cartes visuelles** : Design moderne avec badges de statut colorés
+- **Modales de confirmation** : Sécurité avant suppression
+- **Messages d'état** : Feedback clair pour toutes les actions
 
 ## 👥 Développement
 
