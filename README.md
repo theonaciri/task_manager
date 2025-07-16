@@ -127,7 +127,7 @@ tasks_manager/
    ```bash
    # Le fichier .env est déjà configuré pour SQLite
    # DB_CONNECTION=sqlite
-   # DB_DATABASE=/chemin/vers/database.sqlite
+   # DB_DATABASE=database.sqlite
    ```
 
 5. **Créer la base de données et exécuter les migrations**
